@@ -16,19 +16,31 @@ public class Locomotion : MonoBehaviour
     public float m_AnguarSpeedDampTime = 0.25f;
     public float m_DirectionResponseTime = 0.2f;
 
-    // Use this for initialization
-    void Start()
-    {
+    // DotNet 4.0 框架不适用
+    //private static readonly Lazy<Locomotion> _instance = new Lazy<Locomotion>(() => new Locomotion(Anim));
 
+    private static readonly Locomotion _instance = new Locomotion(Anim);
+
+    public static Animator Anim
+    {
+        get;
+        set;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static Locomotion Instance
     {
-
+        get
+        {
+            return _instance;
+        }
     }
 
-    public Locomotion(Animator animator)
+    static Locomotion()
+    {
+        
+    }
+
+    private Locomotion(Animator animator)
     {
         m_Animator = animator;
 
@@ -53,8 +65,10 @@ public class Locomotion : MonoBehaviour
         Single angularSpeedDampTime = inWalkRun || inTransition ? m_AnguarSpeedDampTime : 0;
         Single directionDampTime = inTurn || inTransition ? 1000000 : 0;
 
+        // AngularSpeed 是一个 Parameter
         Single angularSpeed = direction / m_DirectionResponseTime;
 
+        // 设置 Animator State Machine中 Parameters 的值
         m_Animator.SetFloat(m_SpeedId, speed, speedDampTime, Time.deltaTime);
         m_Animator.SetFloat(m_AngularSpeedId, angularSpeed, angularSpeedDampTime, Time.deltaTime);
         m_Animator.SetFloat(m_DirectionId, direction, directionDampTime, Time.deltaTime);

@@ -27,7 +27,7 @@ public class JoystickToEvents : MonoBehaviour
     /// <param name="camera">Camera 的 transform</param>
     /// <param name="speed">Player 的 Speed（用来控制Player的Animation 是Idle，Walk还是Run）</param>
     /// <param name="direction">Player 的 direction（用来控制 Player的 Animation 如何转弯）</param>
-    public static void Do(Transform root, Transform camera, out Single speed, out Single direction)
+    public static void Do(Transform root, Transform camera, ref Single speed, ref Single direction)
     {
         // 得到 Joystick的 方向
         Single horizontal = Input.GetAxis("Horizontal");
